@@ -1,0 +1,30 @@
+generator client {
+  provider = "prisma-kysely"
+  output   = "../src/db"
+  fileName = "schema.generated.ts"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:../todo.db"
+}
+
+model Tag {
+  id        Int      @id @default(autoincrement())
+  todoId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  label     String
+  todos     Todo     @relation(fields: [todoId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model Todo {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  status    String
+  title     String
+  tags      Tag[]
+
+  @@index([status])
+}
