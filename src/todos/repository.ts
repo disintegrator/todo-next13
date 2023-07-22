@@ -13,7 +13,11 @@ export class TodosClient implements TodosRepository {
 	constructor(private db: DBClient) {}
 
 	async findAll() {
-		return this.db.selectFrom("Todo").selectAll().execute();
+		return this.db
+			.selectFrom("Todo")
+			.selectAll()
+			.orderBy("createdAt", "desc")
+			.execute();
 	}
 
 	async findById(id: number) {
