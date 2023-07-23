@@ -6,6 +6,10 @@ export type TodoListProps = {
 };
 
 export function TodoList(props: TodoListProps) {
+	if (!props.items.length) {
+		return null;
+	}
+
 	const partitions = partitionTodos(props.items);
 
 	return (
