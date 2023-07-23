@@ -3,9 +3,12 @@ import { createTodoForm } from "@/todos/forms";
 import { db } from "@/db/client";
 import { serializedTodo, serializedTodos } from "@/todos/serializers";
 import { TodosClient } from "@/todos/repository";
-import { revalidate } from "@/lib/caching";
+import { revalidate as cr } from "@/lib/caching";
 
 const todosClient = new TodosClient(db);
+
+export const revalidate = 0;
+export const dynamic = "force-dynamic";
 
 export async function GET() {
 	const result = await todosClient.findAll();
@@ -25,7 +28,7 @@ export async function POST(request: Request) {
 
 	const result = await todosClient.create(parsed.data);
 
-	revalidate.todos();
+	cr.todos();
 
 	return NextResponse.json(
 		{ todo: serializedTodo.parse(result) },

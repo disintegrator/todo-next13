@@ -2,20 +2,16 @@ import { NewTodoForm } from "@/todos/new-todo-form";
 import { QueryProvider } from "./query";
 import { Card } from "@/components/ui/card";
 import { cacheTags } from "@/lib/caching";
-import { Todo, todosList } from "@/todos/serializers";
-import { RelativeTime } from "@/components/dates/relative-time";
+import { todosList } from "@/todos/serializers";
 import { TodoList } from "@/todos/list";
 
-async function getData() {
-	const res = await fetch("http://localhost:3000/api/todos", {
-		next: { revalidate: 10, tags: [cacheTags.todos()] },
-	});
-	// The return value is *not* serialized
-	// You can return Date, Map, Set, etc.
+export const revalidate = 0;
+export const dynamic = "force-dynamic";
 
-	// Recommendation: handle errors
+async function getData() {
+	const res = await fetch("http://localhost:3000/api/todos");
+
 	if (!res.ok) {
-		// This will activate the closest `error.js` Error Boundary
 		throw new Error("Failed to fetch data");
 	}
 

@@ -8,7 +8,7 @@ const todosClient = new TodosClient(db);
 
 export async function POST(
 	request: Request,
-	{ params }: { params: { id: string } }
+	{ params }: { params: { id: string } },
 ) {
 	const body = await request.json();
 
@@ -17,7 +17,7 @@ export async function POST(
 		return NextResponse.json({ errors: form.error }, { status: 422 });
 	}
 
-	const result = todosClient.updateById(form.data.id, form.data);
+	const result = await todosClient.updateById(form.data.id, form.data);
 
 	return NextResponse.json({
 		todo: serializedTodo.parse(result),

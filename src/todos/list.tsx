@@ -1,5 +1,6 @@
 import { RelativeTime } from "@/components/dates/relative-time";
 import { Todo } from "./serializers";
+import { TodoToggle } from "./todo-toggle";
 
 export type TodoListProps = {
 	items: Todo[];
@@ -33,11 +34,14 @@ export function TodoList(props: TodoListProps) {
 function TodoListItem(props: { item: Todo }) {
 	const { item } = props;
 	return (
-		<div>
-			<p>{item.title}</p>
-			<p className="text-muted-foreground">
-				<RelativeTime date={item.createdAt} />
-			</p>
+		<div className="grid grid-cols-[auto_max-content] items-center">
+			<div>
+				<p>{item.title}</p>
+				<p className="text-muted-foreground">
+					<RelativeTime date={item.createdAt} />
+				</p>
+			</div>
+			<TodoToggle id={item.id} initialStatus={item.status} />
 		</div>
 	);
 }

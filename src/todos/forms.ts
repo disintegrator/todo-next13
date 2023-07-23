@@ -13,5 +13,7 @@ export const updateTodoForm = createTodoForm
 		id: z.coerce.number().int().positive(),
 	})
 	.refine(({ title, status }) => title || status, {
-		message: "At least field needs to be changed",
+		message: "At least one field needs to be changed",
 	});
+
+export type UpdateTodoForm = z.infer<typeof updateTodoForm>;
