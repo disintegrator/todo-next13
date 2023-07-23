@@ -12,8 +12,7 @@ function getLocale() {
 }
 
 const MINUTE = 60 * 1000;
-const HALF_HOUR = 30 * MINUTE;
-const HOUR = 2 * HALF_HOUR;
+const HOUR = 60 * MINUTE;
 const DAY = 24 * HOUR;
 const MONTH = 30 * DAY;
 
@@ -41,17 +40,18 @@ export function RelativeTime(props: RelativeTimeProps) {
 		return <span className="invisible">{new Date(date).toISOString()}</span>;
 	}
 
-	const fmt = new Intl.RelativeTimeFormat(locale, { style: "short" });
+	const absfmt = new Intl.DateTimeFormat(locale);
+	const relfmt = new Intl.RelativeTimeFormat(locale, { style: "short" });
 
 	let val: string;
 	if (abs >= MONTH) {
-		val = new Intl.DateTimeFormat(locale).format(inp);
+		val = absfmt.format(inp);
 	} else if (abs >= DAY) {
-		val = fmt.format(Math.trunc(diff / DAY), "day");
+		val = relfmt.format(Math.trunc(diff / DAY), "day");
 	} else if (abs >= HOUR) {
-		val = fmt.format(Math.trunc(diff / HOUR), "hour");
+		val = relfmt.format(Math.trunc(diff / HOUR), "hour");
 	} else {
-		val = fmt.format(Math.trunc(diff / MINUTE), "minute");
+		val = relfmt.format(Math.trunc(diff / MINUTE), "minute");
 	}
 
 	return <>{val}</>;
