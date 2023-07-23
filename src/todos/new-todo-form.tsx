@@ -32,10 +32,16 @@ export function NewTodoForm() {
 				body: JSON.stringify(data),
 			});
 
-			if (result.ok) {
-				form.reset();
-				router.refresh();
+			if (!result.ok) {
+				throw new Error(
+					`Unable to create todo entry: server responded with ${result.status}`,
+				);
 			}
+			return result;
+		},
+		onSuccess: () => {
+			form.reset();
+			router.refresh();
 		},
 	});
 

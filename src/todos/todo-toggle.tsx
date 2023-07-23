@@ -40,6 +40,7 @@ export function TodoToggle(props: {
 	});
 
 	const onSubmit = handleSubmit((f, e) => {
+		e?.preventDefault();
 		mutation.mutate(f);
 	});
 
@@ -50,12 +51,7 @@ export function TodoToggle(props: {
 
 	return (
 		<Form {...form}>
-			<form
-				onSubmit={form.handleSubmit((f, e) => {
-					e?.preventDefault();
-					mutation.mutate(f);
-				})}
-			>
+			<form onSubmit={onSubmit}>
 				<FormField
 					control={form.control}
 					name="status"
